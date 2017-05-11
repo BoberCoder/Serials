@@ -1,0 +1,7 @@
+#!/bin/bash
+
+login=$1
+password=$2
+
+mysql -u $login -p$password < bin/create_DB.sql
+

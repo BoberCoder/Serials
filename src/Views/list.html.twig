@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <table border="1" align="center" style="margin: 30px auto">
+        <tbody align="center">
+        <tr>
+            <th>Название сериала</th><th>Постер</th><th>Описание</th>
+        </tr>
+        {% for serial in serials %}
+            <tr>
+                <td>{{ serial.title }}</td>
+                <td>{{ serial.poster }}</td>
+                <td>{{ serial.description }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock body %}
