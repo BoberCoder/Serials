@@ -31,15 +31,16 @@ class SerialRepository
 
         return $this->fetchSerialsData($statement);
     }
-//    public function findBy($id)
-//    {
-//        $statement = $this->connector->prepare('SELECT * FROM university WHERE id = :id LIMIT 1');
-//        $statement->bindValue(':id', (int) $id);
-//        $statement->execute();
-//        $universityData = $this->fetchUniversityData($statement);
-//
-//        return $universityData[0];
-//    }
+    public function findBy($id)
+    {
+        $statement = $this->connector->prepare('SELECT * FROM serial WHERE id = :id LIMIT 1');
+        $statement->bindValue(':id', (int) $id);
+        $statement->execute();
+        $universityData = $this->fetchSerialsData($statement);
+
+        return $universityData[0];
+    }
+
 //    public function insert($universityData)
 //    {
 //        $statement = $this->connector->prepare('INSERT INTO university (name, town, site) VALUES (:name, :town, :site)');

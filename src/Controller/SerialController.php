@@ -26,6 +26,13 @@ class SerialController
         return $this->twig->display('list.html.twig', ['serials' => $serialData]);
     }
 
+    public function actionShow($id)
+    {
+        $serialData = $this->repository->findBy($id);
+
+        return $this->twig->display('show.html.twig', ['serial' => $serialData]);
+    }
+
 //    public function actionNew()
 //    {
 //        if (isset($_POST['submit'])) {
