@@ -26,29 +26,30 @@ class SerialController
         return $this->twig->display('list.html.twig', ['serials' => $serialData]);
     }
 
-    public function actionShow($id)
+    public function actionShow($title)
     {
-        $serialData = $this->repository->findBy($id);
+        $title = str_replace('_',' ',$title);
+        $serialData = $this->repository->findBy($title);
 
         return $this->twig->display('show.html.twig', ['serial' => $serialData]);
     }
 
-//    public function actionNew()
-//    {
-//        if (isset($_POST['submit'])) {
-//            $this->repository->insert(
-//                [
-//                    'name' => $_POST['name'],
-//                    'town' => $_POST['town'],
-//                    'site' => $_POST['site'],
-//                ]
-//            );
-//
-//            return $this->actionList();
-//        }
-//
-//        return $this->twig->display('university_new.html.twig');
-//    }
+    public function actionNew()
+    {
+        if (isset($_POST['submit'])) {
+            $this->repository->insert(
+                [
+                    'title' => $_POST['title'],
+                    'description' => $_POST['description'],
+                    'poster' => $_POST['poster'],
+                ]
+            );
+
+            return $this->actionList();
+        }
+
+        return $this->twig->display('new.html.twig');
+    }
 //
 //    public function actionRemove($id)
 //    {

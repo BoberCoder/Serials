@@ -31,25 +31,27 @@ class SerialRepository
 
         return $this->fetchSerialsData($statement);
     }
-    public function findBy($id)
+    public function findBy($title)
     {
-        $statement = $this->connector->prepare('SELECT * FROM serial WHERE id = :id LIMIT 1');
-        $statement->bindValue(':id', (int) $id);
+        $statement = $this->connector->prepare('SELECT * FROM serial WHERE title = :title LIMIT 1');
+        $statement->bindValue(':title', (string) $title);
         $statement->execute();
         $universityData = $this->fetchSerialsData($statement);
 
         return $universityData[0];
     }
 
-//    public function insert($universityData)
-//    {
-//        $statement = $this->connector->prepare('INSERT INTO university (name, town, site) VALUES (:name, :town, :site)');
-//        $statement->bindValue(':name', $universityData['name']);
-//        $statement->bindValue(':town', $universityData['town']);
-//        $statement->bindValue(':site', $universityData['site']);
-//
-//        return $statement->execute();
-//    }
+    public function insert($serialData)
+    {
+        $statement = $this->connector->prepare('INSERT INTO serial (title, description, poster) VALUES (:title, :description, :poster)');
+        $statement->bindValue(':title', $serialData['title']);
+        $statement->bindValue(':description', $serialData['description']);
+        $statement->bindValue(':poster', $serialData['poster']);
+
+        return $statement->execute();
+    }
+
+
 //    public function update($universityData)
 //    {
 //        $statement = $this->connector->prepare('UPDATE university SET name = :name, town = :town, site = :site WHERE id = :id');

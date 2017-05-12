@@ -7,7 +7,7 @@ connect serials;
 create table serial (
   id            int not null AUTO_INCREMENT,
   title         varchar(50) not null,
-  poster        varchar(100) not null,
+  poster        varchar(300) not null,
   description   text not null,
   constraint pk_serial primary key (id)
 );

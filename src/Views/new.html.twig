@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <form class="well col-sm-12 col-md-12" action="../Components/upload.php">
+            <a class="btn btn-danger" href="/"><span class="glyphicon glyphicon-chevron-left"></span>Вернуться</a>
+            <div class="row">
+                <div class="col-sm-4 col-md-4">
+                    <label>Название</label>
+                    <input class="form-control" placeholder="Название сериала" type="text">
+                    <label>Постер</label>
+                    <input class="form-control" placeholder="Название сериала" type="file">
+                </div>
+
+                <div class="col-sm-8 col-md-8">
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea class="col-sm-3 col-md-3 form-control" id="message" name="message" rows="10"></textarea>
+                        <button class="btn btn-primary pull-right" type="submit">Send</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock body %}
