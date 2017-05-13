@@ -36,9 +36,9 @@ class SerialRepository
         $statement = $this->connector->prepare('SELECT * FROM serial WHERE title = :title LIMIT 1');
         $statement->bindValue(':title', (string) $title);
         $statement->execute();
-        $universityData = $this->fetchSerialsData($statement);
+        $serialData = $this->fetchSerialsData($statement);
 
-        return $universityData[0];
+        return $serialData[0];
     }
 
     public function insert($serialData)
@@ -62,11 +62,14 @@ class SerialRepository
 //
 //        return $statement->execute();
 //    }
-//    public function delete($universityData)
-//    {
-//        $statement = $this->connector->prepare('DELETE FROM university WHERE  id = :id');
-//        $statement->bindvalue(':id', $universityData['id'], \PDO::PARAM_INT);
-//
-//        return $statement->execute();
-//    }
+    public function delete($serialData)
+    {
+        $file = $this->findBy($serialData["title"]);
+        unlink($file["poster"]);
+
+        $statement = $this->connector->prepare('DELETE FROM serial WHERE  title = :title');
+        $statement->bindvalue(':title', $serialData['title'], \PDO::PARAM_STR);
+
+        return $statement->execute();
+    }
 }

@@ -2,9 +2,9 @@
 
 namespace Serials\Controller;
 
-use Serials\Repositories\SerialRepository;
+use Serials\Repositories\EpisodeRepository;
 
-class SerialController
+class EpisodeController
 {
     private $repository;
 
@@ -14,59 +14,50 @@ class SerialController
 
     public function __construct($connection)
     {
-        $this->repository = new SerialRepository($connection);
+        $this->repository = new EpisodeRepository($connection);
         $this->loader = new \Twig_Loader_Filesystem('src/Views/');
         $this->twig = new \Twig_Environment($this->loader, array('cache' => false));
     }
 
-    public function actionList()
-    {
-        $serialData = $this->repository->findAll();
-
-        return $this->twig->display('list.html.twig', ['serials' => $serialData]);
-    }
-
-    public function actionShow($title)
-    {
-        $title = str_replace('_',' ',$title);
-        $serialData = $this->repository->findBy($title);
-
-        return $this->twig->display('show.html.twig', ['serial' => $serialData]);
-    }
+//    public function actionList()
+//    {
+//        $serialData = $this->repository->findAll();
+//
+//        return $this->twig->display('list.html.twig', ['serials' => $serialData]);
+//    }
+//
+//    public function actionShow($title)
+//    {
+//        $title = str_replace('_',' ',$title);
+//        $serialData = $this->repository->findBy($title);
+//
+//        return $this->twig->display('show.html.twig', ['serial' => $serialData]);
+//    }
 
     public function actionNew()
     {
         if (isset($_POST['submit']))
         {
-            if(is_uploaded_file($_FILES["poster"]["tmp_name"]))
-            {
-                move_uploaded_file($_FILES["poster"]["tmp_name"], $path = "uploads/posters/".$_FILES["poster"]["name"]);
-
                 $this->repository->insert(
                     [
                         'title' => $_POST['title'],
                         'description' => $_POST['description'],
-                        'poster' => $path,
+                        'date' => date('Y-m-d H:i:s'),
                     ]
                 );
-            }
-            else
-            {
-                echo("Ошибка загрузки файла");
-            }
             return header("Location: /");
         }
 
         return $this->twig->display('new.html.twig');
     }
 
-    public function actionDelete($title)
-    {
-        $title = str_replace('_',' ',$title);
-        $this->repository->delete(['title' => $title]);
-
-        return header("Location: /");
-    }
+//    public function actionDelete($title)
+//    {
+//        $title = str_replace('_',' ',$title);
+//        $this->repository->delete(['title' => $title]);
+//
+//        return header("Location: /");
+//    }
 
 //    public function actionEdit($id)
 //    {

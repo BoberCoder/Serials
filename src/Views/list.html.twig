@@ -25,6 +25,11 @@
                 <p>{{ serial.description }}</p>
                 <a class="btn btn-primary" href="/{{ serial.title|replace({' ': '_'}) }}">Детальнее<span class="glyphicon glyphicon-chevron-right"></span></a>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <a type="button" class="btn btn-danger btn-xs" id="delete" href="/delete/{{ serial.title|replace({' ': '_'}) }}">Удалить сериал<span class="glyphicon glyphicon-trash"></span></a>
+                </div>
+            </div>
         </div>
         <!-- /.row -->
 
