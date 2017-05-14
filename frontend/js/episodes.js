@@ -4,18 +4,29 @@ $(function()
     {
         e.preventDefault();
 
-        // var form_data = $("#episode").serialize();
-        // $.ajax(
-        //     {
-        //         type: 'POST',
-        //         url: "/episode/new",
-        //         data: form_data,
-        //         success: function()
-        //         {
-        //             alert("Реєстраційні дані успішно відправлені");
-        //         }
-        //     }
-        // );
+        if($("#title").val()==="")
+        {
+            alert("Введите название!");
+            return false;
+        }
+        else if($("#description").val()==="")
+        {
+            alert("Введите описание!");
+            return false;
+        }
+
+        var form_data = $("#episode").serialize();
+        $.ajax(
+            {
+                type: 'POST',
+                url: "/episode/new",
+                data: form_data,
+                success: function(response)
+                {
+                    alert("Серия добавлена");
+                }
+            }
+        );
 
         var controlForm = $(this).parents('.controls form:first'),
             currentEntry = $(this).parents('.entry:first'),

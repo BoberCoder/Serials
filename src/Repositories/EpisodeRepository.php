@@ -11,42 +11,30 @@ class EpisodeRepository
         $this->connector = $connection;
     }
 
-//    public function fetchSerialsData($statement)
-//    {
-//        while ($serial = $statement->fetch()) {
-//            $serials[] = [
-//                'id' => $serial['id'],
-//                'title' => $serial['title'],
-//                'description' => $serial['description'],
-//                'poster' => $serial['poster'],
-//            ];
-//        }
-//
-//        return $serials;
-//    }
-//
-//    public function findAll()
-//    {
-//        $statement = $this->connector->query('SELECT * FROM serial');
-//
-//        return $this->fetchSerialsData($statement);
-//    }
-//    public function findBy($title)
-//    {
-//        $statement = $this->connector->prepare('SELECT * FROM serial WHERE title = :title LIMIT 1');
-//        $statement->bindValue(':title', (string) $title);
-//        $statement->execute();
-//        $serialData = $this->fetchSerialsData($statement);
-//
-//        return $serialData[0];
-//    }
+    public function fetchEpisodesData($statement)
+    {
+        $episodes = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $episodes;
+    }
+
+    public function findAll($serial_id)
+    {
+        $statement = $this->connector->prepare('SELECT * FROM episode WHERE serial_id = :serial_id');
+        $statement->bindValue(':serial_id', $serial_id);
+        $statement->execute();
+
+        return $this->fetchEpisodesData($statement);
+    }
+
 
     public function insert($episodeData)
     {
-        $statement = $this->connector->prepare('INSERT INTO episode (title, description, date, serial_id) VALUES (:title, :description, :poster)');
-        $statement->bindValue(':title', $serialData['title']);
-        $statement->bindValue(':description', $serialData['description']);
-        $statement->bindValue(':poster', $serialData['poster']);
+        $statement = $this->connector->prepare('INSERT INTO episode (title, description, date, serial_id) VALUES (:title, :description, :date, :serial_id)');
+        $statement->bindValue(':title', $episodeData['title']);
+        $statement->bindValue(':description', $episodeData['description']);
+        $statement->bindValue(':date', $episodeData['date']);
+        $statement->bindValue(':serial_id', $episodeData['serial_id']);
 
         return $statement->execute();
     }

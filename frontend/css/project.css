@@ -8,7 +8,7 @@ body{
     position: relative;
 }
 
-#delete{
+.small-button{
     position: absolute;
     bottom: 25px;
     right: 35px;

@@ -2,11 +2,14 @@
 
 namespace Serials\Controller;
 
+use Serials\Repositories\EpisodeRepository;
 use Serials\Repositories\SerialRepository;
 
 class SerialController
 {
     private $repository;
+
+    private $ep_repository;
 
     private $loader;
 
@@ -15,6 +18,7 @@ class SerialController
     public function __construct($connection)
     {
         $this->repository = new SerialRepository($connection);
+        $this->ep_repository = new EpisodeRepository($connection);
         $this->loader = new \Twig_Loader_Filesystem('src/Views/');
         $this->twig = new \Twig_Environment($this->loader, array('cache' => false));
     }
@@ -30,8 +34,10 @@ class SerialController
     {
         $title = str_replace('_',' ',$title);
         $serialData = $this->repository->findBy($title);
+        $episodeData = $this->ep_repository->findAll($serialData['id']);
 
-        return $this->twig->display('show.html.twig', ['serial' => $serialData]);
+
+        return $this->twig->display('show.html.twig', ['serial' => $serialData,'episodes' => $episodeData]);
     }
 
     public function actionNew()
@@ -68,30 +74,45 @@ class SerialController
         return header("Location: /");
     }
 
-//    public function actionEdit($id)
-//    {
-//        if (isset($_POST['submit'])) {
-//            $this->repository->update(
-//                [
-//                    'name' => $_POST['name'],
-//                    'town' => $_POST['town'],
-//                    'site' => $_POST['site'],
-//                    'id' => (int) $id,
-//
-//                ]
-//            );
-//
-//            return $this->actionList();
-//        }
-//
-//        $universityData = $this->repository->findBy($id);
-//
-//        return $this->twig->display('university_new.html.twig',
-//            [
-//                'name' => $universityData['name'],
-//                'town' => $universityData['town'],
-//                'site' => $universityData['site'],
-//            ]
-//        );
-//    }
+    public function actionEdit($title)
+    {
+        if (isset($_POST['submit']))
+        {
+            $this->repository->update(
+                [
+                    'title' => $_POST['title'],
+                    'description' => $_POST['description'],
+                    'id' => $_POST['id'],
+                    'poster' => $_POST['existposter']
+                ]
+            );
+
+            if(is_uploaded_file($_FILES["poster"]["tmp_name"]))
+            {
+                move_uploaded_file($_FILES["poster"]["tmp_name"], $path = "uploads/posters/".$_FILES["poster"]["name"]);
+                $this->repository->update(
+                    [
+                        'title' => $_POST['title'],
+                        'description' => $_POST['description'],
+                        'id' => $_POST['id'],
+                        'poster' => $path,
+                    ]
+                );
+            }
+
+            return header("Location: /");
+        }
+
+        $title = str_replace('_',' ',$title);
+        $serialData = $this->repository->findBy($title);
+
+        return $this->twig->display('edit.html.twig',
+            [
+                'title' => $serialData['title'],
+                'description' => $serialData['description'],
+                'poster' => $serialData['poster'],
+                'id' => $serialData['id']
+            ]
+        );
+    }
 }

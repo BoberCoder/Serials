@@ -19,33 +19,5 @@
             </div>
             <input class="btn btn-primary pull-right" type="submit" name="submit" value="Добавить">
         </form>
-
-            <div class="row">
-                <h2 align="center">Добавьте серии</h2>
-                <hr>
-                <div class="control-group" id="fields">
-                    <label class="control-label episode">Название епизода</label>
-                    <label class="control-label episode">Краткое описание</label>
-                    <label class="control-label date">Дата добавления</label>
-                    <div class="controls">
-                        <form role="form" autocomplete="off" id="edisode">
-                            <div class="entry input-group col-lg-12">
-                                <div class="col-lg-4"><input class="form-control" name="title" type="text" /></div>
-                                <div class="col-lg-4"><input class="form-control" name="description" type="text" /></div>
-                                <div class="col-lg-2"></div>
-                            <button class="btn btn-success btn-add" type="button" value="">
-                                <span class="glyphicon glyphicon-plus"></span>
-                                Добавить серию
-                            </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
     </div>
 {% endblock body %}
-{% block javascripts %}
-    {{ parent() }}
-    <script src="/frontend/js/episodes.js"></script>
-{% endblock javascripts %}

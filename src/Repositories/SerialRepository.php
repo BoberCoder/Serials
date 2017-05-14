@@ -13,14 +13,7 @@ class SerialRepository
 
     public function fetchSerialsData($statement)
     {
-        while ($serial = $statement->fetch()) {
-            $serials[] = [
-                'id' => $serial['id'],
-                'title' => $serial['title'],
-                'description' => $serial['description'],
-                'poster' => $serial['poster'],
-            ];
-        }
+        $serials = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
         return $serials;
     }
@@ -33,7 +26,11 @@ class SerialRepository
     }
     public function findBy($title)
     {
-        $statement = $this->connector->prepare('SELECT * FROM serial WHERE title = :title LIMIT 1');
+        $statement = $this->connector->prepare('
+              SELECT *
+              FROM serial 
+              WHERE serial.title = :title 
+              ');
         $statement->bindValue(':title', (string) $title);
         $statement->execute();
         $serialData = $this->fetchSerialsData($statement);
@@ -52,16 +49,16 @@ class SerialRepository
     }
 
 
-//    public function update($universityData)
-//    {
-//        $statement = $this->connector->prepare('UPDATE university SET name = :name, town = :town, site = :site WHERE id = :id');
-//        $statement->bindValue(':name', $universityData['name']);
-//        $statement->bindValue(':town', $universityData['town']);
-//        $statement->bindValue(':site', $universityData['site']);
-//        $statement->bindValue(':id', $universityData['id']);
-//
-//        return $statement->execute();
-//    }
+    public function update($serialData)
+    {
+        $statement = $this->connector->prepare('UPDATE serial SET title = :title, description = :description, poster = :poster WHERE id = :id');
+        $statement->bindValue(':title', $serialData['title']);
+        $statement->bindValue(':description', $serialData['description']);
+        $statement->bindValue(':poster', $serialData['poster']);
+        $statement->bindValue(':id', $serialData['id']);
+
+        return $statement->execute();
+    }
     public function delete($serialData)
     {
         $file = $this->findBy($serialData["title"]);

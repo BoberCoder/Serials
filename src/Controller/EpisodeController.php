@@ -36,19 +36,14 @@ class EpisodeController
 
     public function actionNew()
     {
-        if (isset($_POST['submit']))
-        {
-                $this->repository->insert(
-                    [
-                        'title' => $_POST['title'],
-                        'description' => $_POST['description'],
-                        'date' => date('Y-m-d H:i:s'),
-                    ]
-                );
-            return header("Location: /");
-        }
-
-        return $this->twig->display('new.html.twig');
+        $this->repository->insert(
+            [
+                'title' => $_POST['title'],
+                'description' => $_POST['description'],
+                'date' => date('Y-m-d H:i:s'),
+                'serial_id' => 1
+            ]
+        );
     }
 
 //    public function actionDelete($title)
