@@ -26,8 +26,11 @@ class SerialController
     public function actionList()
     {
         $serialData = $this->repository->findAll();
+        $limit = 5;
+        $all = count($serialData);
+        $pages = ceil($all/$limit);
 
-        return $this->twig->display('list.html.twig', ['serials' => $serialData]);
+        return $this->twig->display('list.html.twig', ['serials' => $serialData,'pages' => $pages]);
     }
 
     public function actionShow($title)
@@ -82,7 +85,7 @@ class SerialController
                 [
                     'title' => $_POST['title'],
                     'description' => $_POST['description'],
-                    'id' => $_POST['id'],
+                    'id' => $_POST['serial_id'],
                     'poster' => $_POST['existposter']
                 ]
             );
@@ -94,7 +97,7 @@ class SerialController
                     [
                         'title' => $_POST['title'],
                         'description' => $_POST['description'],
-                        'id' => $_POST['id'],
+                        'id' => $_POST['serial_id'],
                         'poster' => $path,
                     ]
                 );

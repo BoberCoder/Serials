@@ -19,40 +19,30 @@ class EpisodeController
         $this->twig = new \Twig_Environment($this->loader, array('cache' => false));
     }
 
-//    public function actionList()
-//    {
-//        $serialData = $this->repository->findAll();
-//
-//        return $this->twig->display('list.html.twig', ['serials' => $serialData]);
-//    }
-//
-//    public function actionShow($title)
-//    {
-//        $title = str_replace('_',' ',$title);
-//        $serialData = $this->repository->findBy($title);
-//
-//        return $this->twig->display('show.html.twig', ['serial' => $serialData]);
-//    }
+    public function actionList($serial_id)
+    {
+        $episodeData = $this->repository->findAll($serial_id);
 
-    public function actionNew()
+        return $this->twig->display('ep_list.html.twig', ['episodes' => $episodeData]);
+    }
+
+    public function actionNew($serial_id)
     {
         $this->repository->insert(
             [
                 'title' => $_POST['title'],
                 'description' => $_POST['description'],
                 'date' => date('Y-m-d H:i:s'),
-                'serial_id' => 1
+                'serial_id' => $serial_id,
             ]
         );
     }
 
-//    public function actionDelete($title)
-//    {
-//        $title = str_replace('_',' ',$title);
-//        $this->repository->delete(['title' => $title]);
-//
-//        return header("Location: /");
-//    }
+    public function actionDelete($id)
+    {
+        $this->repository->delete(['id' => $id]);
+
+    }
 
 //    public function actionEdit($id)
 //    {

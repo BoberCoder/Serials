@@ -1,7 +1,9 @@
 <?php
 
 return array(
-    'episode/new' => 'episode/new',
+    'episode/delete/([0-9]+)' => 'episode/delete/$1',
+    'episode/([0-9]+)'=> 'episode/list/$1',
+    'episode/new/([0-9]+)' => 'episode/new/$1',
     'new' => 'serial/new',
     'edit/([А_-я_]+)' => 'serial/edit/$1',
     'delete/([А_-я_]+)' => 'serial/delete/$1',

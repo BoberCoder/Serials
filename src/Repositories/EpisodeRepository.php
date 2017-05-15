@@ -50,14 +50,11 @@ class EpisodeRepository
 //
 //        return $statement->execute();
 //    }
-//    public function delete($serialData)
-//    {
-//        $file = $this->findBy($serialData["title"]);
-//        unlink($file["poster"]);
-//
-//        $statement = $this->connector->prepare('DELETE FROM serial WHERE  title = :title');
-//        $statement->bindvalue(':title', $serialData['title'], \PDO::PARAM_STR);
-//
-//        return $statement->execute();
-//    }
+    public function delete($episodeData)
+    {
+        $statement = $this->connector->prepare('DELETE FROM episode WHERE  id = :id');
+        $statement->bindvalue(':id', $episodeData['id'], \PDO::PARAM_INT);
+
+        return $statement->execute();
+    }
 }
