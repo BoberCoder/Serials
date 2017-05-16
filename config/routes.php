@@ -8,5 +8,7 @@ return array(
     'edit/([А_-я_]+)' => 'serial/edit/$1',
     'delete/([А_-я_]+)' => 'serial/delete/$1',
     '([А_-я_]+)' => 'serial/show/$1',
-    '' => 'serial/list',
+    '([0-9]+)' => 'serial/list/$1',
+    '' => 'serial/list/1',
+
 );

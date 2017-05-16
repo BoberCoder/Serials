@@ -41,17 +41,17 @@
         <div class="row text-center">
             <div class="col-lg-12">
                 <ul class="pagination">
+                    {% for i in pagination['pages']|keys %}
                     <li>
-                        <a href="#">&laquo;</a>
+                        {% if loop.first %}<a href="{{i-1}}">&laquo;</a>{% endif %}
                     </li>
-                    {% for i in 1..pages %}
                     <li>
-                        <a href="#">{{ i }}</a>
+                        <a href="{{ i }}">{{ i }}</a>
+                    </li>
+                    <li>
+                        {% if loop.last %}<a href="{{i+1}}">&raquo;</a>{% endif %}
                     </li>
                     {% endfor %}
-                    <li>
-                        <a href="#">&raquo;</a>
-                    </li>
                 </ul>
             </div>
         </div>

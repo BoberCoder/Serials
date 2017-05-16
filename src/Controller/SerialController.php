@@ -2,6 +2,7 @@
 
 namespace Serials\Controller;
 
+use Serials\Components\Paginator;
 use Serials\Repositories\EpisodeRepository;
 use Serials\Repositories\SerialRepository;
 
@@ -23,14 +24,28 @@ class SerialController
         $this->twig = new \Twig_Environment($this->loader, array('cache' => false));
     }
 
-    public function actionList()
+    public function actionList($page)
     {
-        $serialData = $this->repository->findAll();
+        $all = $this->repository->countRecords();
+        $all = $all[0]['count'];
         $limit = 5;
-        $all = count($serialData);
-        $pages = ceil($all/$limit);
+        $linkLimit = 3;
 
-        return $this->twig->display('list.html.twig', ['serials' => $serialData,'pages' => $pages]);
+        $paginator = new Paginator($all,$limit,$linkLimit,$page);
+        $pages = $paginator->getLinks();
+        $pagination = ['pages'=>$pages];
+        if ($page==1)
+        {
+            $skip = 0;
+        }
+        else
+        {
+            $skip = ($page*$limit)-$limit;
+        }
+
+        $serialData = $this->repository->findAll($skip,$limit);
+
+        return $this->twig->display('list.html.twig', ['serials' => $serialData,'pagination' => $pagination]);
     }
 
     public function actionShow($title)

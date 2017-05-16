@@ -18,12 +18,32 @@ class SerialRepository
         return $serials;
     }
 
-    public function findAll()
+    public function findAll($min,$max)
     {
-        $statement = $this->connector->query('SELECT * FROM serial');
+        $this->connector->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+        $statement = $this->connector->prepare('
+                SELECT DISTINCT serial.* 
+                FROM serial 
+                LEFT JOIN episode ON serial.id = episode.serial_id 
+                GROUP BY serial.id
+                ORDER BY MAX(episode.date) DESC
+                LIMIT :min, :max
+                                                ');
+        $statement->bindValue(':min', $min, \PDO::PARAM_INT);
+        $statement->bindValue(':max', $max, \PDO::PARAM_INT);
+
+        $statement->execute();
 
         return $this->fetchSerialsData($statement);
     }
+
+    public function countRecords()
+    {
+        $statement = $this->connector->query('SELECT COUNT(*) as count FROM serial');
+
+        return $this->fetchSerialsData($statement);
+    }
+
     public function findBy($title)
     {
         $statement = $this->connector->prepare('
