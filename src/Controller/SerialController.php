@@ -32,8 +32,7 @@ class SerialController
         $linkLimit = 3;
 
         $paginator = new Paginator($all,$limit,$linkLimit,$page);
-        $pages = $paginator->getLinks();
-        $pagination = ['pages'=>$pages];
+        $pagination = $paginator->getLinks();
         if ($page==1)
         {
             $skip = 0;
@@ -107,6 +106,7 @@ class SerialController
 
             if(is_uploaded_file($_FILES["poster"]["tmp_name"]))
             {
+                $_FILES["poster"]["name"] = uniqid();
                 move_uploaded_file($_FILES["poster"]["tmp_name"], $path = "uploads/posters/".$_FILES["poster"]["name"]);
                 $this->repository->update(
                     [
@@ -116,6 +116,7 @@ class SerialController
                         'poster' => $path,
                     ]
                 );
+                unlink($_POST['existposter']);
             }
 
             return header("Location: /");

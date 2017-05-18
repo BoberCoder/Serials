@@ -25,15 +25,13 @@ class Paginator
     }
 
     /**
-
-     * @return string
+     * @return array
      */
     public function getLinks()
     {
         $pages     = 0;       // кол-во страниц в пагинации
         $needChunk = 0;       // индекс нужного в данный момент чанка
         $pagesArr  = array(); // пременная для промежуточного хранения массива навигации
-        $link      = NULL;    // формируемая ссылка
 
 
 
@@ -48,35 +46,7 @@ class Paginator
 
         $needChunk = $this->searchPage( $allPages, $this->page);
 
-        // Формируем ссылки "В начало", "передыдущая" ------------------------------------------------
-
-//        if ( $start > 1 ) {
-//            $htmlOut .= '<li><a href="'.$link.'&'.$varName.'=0">'.$this->startChar.'</a></li>'.
-//                '<li><a href="'.$link.'&'.$varName.'='.($start - $limit).'">'.$this->prevChar.'</a></li>';
-//        } else {
-//            $htmlOut .= '<li><span>'.$this->startChar.'</span></li>'.
-//                '<li><span>'.$this->prevChar.'</span></li>';
-//        }
-//        // Собсно выводим ссылки из нужного чанка
-//        foreach( $allPages[$needChunk] AS $pageNum => $ofset )  {
-//            // Делаем текущую страницу не активной:
-//            if( $ofset == $start  ) {
-//                $htmlOut .= '<li><span>'. $pageNum .'</span></li>';
-//                continue;
-//            }
-//            $htmlOut .= '<li><a href="'.$link.'&'.$varName.'='. $ofset .'">'. $pageNum . '</a></li>';
-//        }
-
-        // Формируем ссылки "следующая", "в конец" ------------------------------------------------
-
-//        if ( ($all - $limit) >  $start) {
-//            $htmlOut .= '<li><a href="' . $link . '&' . $varName . '=' . ( $start + $limit) . '">' . $this->nextChar . '</a></li>'.
-//                '<li><a href="' . $link . '&' . $varName . '=' . array_pop( array_pop($allPages) ) . '">' . $this->endChar . '</a></li>';
-//        } else {
-//            $htmlOut .= '<li><span>' . $this->nextChar . '</span></li>'.
-//                '<li><span>' . $this->endChar . '</span></li>';
-//        }
-        return $allPages[$needChunk];
+        return array("chunk" =>$allPages[$needChunk],"pages"=>$pages);
     }
 
     /**

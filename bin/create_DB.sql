@@ -19,7 +19,7 @@ create table episode (
   date          datetime not null,
   serial_id     int not null,
   constraint pk_episode primary key (id),
-  constraint fk_episode foreign key (serial_id) references serial(id)
+  constraint fk_episode foreign key (serial_id) references serial(id) on DELETE CASCADE
 );
 
 commit;

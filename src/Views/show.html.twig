@@ -22,18 +22,20 @@
             <div class="row">
                 <div class="col-md-12">
                     <a type="button" class="btn btn-info btn-xs small-button" href="/edit/{{ serial.title|replace({' ': '_'}) }}">Редактировать сериал <span class="glyphicon glyphicon-pencil"></span></a>
-                    <hr>
                 </div>
             </div>
-            <div class="container">
-                <div class="row">
-                    <h2 class="text-center">Серии</h2>
-                    {% for episode in episodes %}
-                    <li class="list-group-item list-group-item-default center-block" style="width: 600px"><span class="glyphicon glyphicon-film"></span> {{ episode.title }}</li>
-                    {% endfor %}
-                    <br>
+            {% if episodes %}
+                <div class="container">
+                    <div class="row">
+                        <hr>
+                        <h2 class="text-center">Серии</h2>
+                        {% for episode in episodes %}
+                        <li class="list-group-item list-group-item-default center-block" style="width: 600px"><span class="glyphicon glyphicon-film"></span> {{ episode.title }}</li>
+                        {% endfor %}
+                        <br>
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
 
         <br>

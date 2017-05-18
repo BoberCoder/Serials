@@ -41,16 +41,32 @@
         <div class="row text-center">
             <div class="col-lg-12">
                 <ul class="pagination">
-                    {% for i in pagination['pages']|keys %}
-                    <li>
-                        {% if loop.first %}<a href="{{i-1}}">&laquo;</a>{% endif %}
-                    </li>
-                    <li>
-                        <a href="{{ i }}">{{ i }}</a>
-                    </li>
-                    <li>
-                        {% if loop.last %}<a href="{{i+1}}">&raquo;</a>{% endif %}
-                    </li>
+                    {% for i in pagination['chunk']|keys %}
+                        {% if loop.first %}
+                            {% if i-1 == 0 %}
+                                <li class="page-item disabled">
+                                    <a>&laquo;</a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ i-1 }}">&laquo;</a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                        <li>
+                            <a href="{{ i }}">{{ i }}</a>
+                        </li>
+                        {% if loop.last %}
+                            {% if pagination['pages']-i ==0 %}
+                                <li class="page-item disabled">
+                                    <a>&raquo;</a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ i+1 }}">&raquo;</a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </div>

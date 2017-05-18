@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="container well">
+        <div>
+            <a class="btn btn-warning" href="/{{ title|replace({' ': '_'}) }}"><span class="glyphicon glyphicon-chevron-left"></span>Вернутся</a>
+        </div>
         <form class="col-sm-12 col-md-12" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-sm-4 col-md-4">
@@ -39,6 +42,7 @@
                     </button>
                 </div>
             </form>
+
     </div>
 {% endblock body %}
 {% block javascripts %}
